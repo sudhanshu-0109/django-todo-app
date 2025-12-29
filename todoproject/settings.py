@@ -27,9 +27,11 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     'django-todo-app-1-yrqg.onrender.com',
+    '.onrender.com',
     'localhost',
     '127.0.0.1',
 ]
+
 
 
 # Application definition
