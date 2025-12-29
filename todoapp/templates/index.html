@@ -1,0 +1,103 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Todo App</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+    <div style="display:flex; justify-content:space-between; margin-bottom:20px;">
+    <div>
+        <strong>Todo App</strong>
+    </div>
+
+    <div>
+        {% if user.is_authenticated %}
+            <span>Hi, {{ user.username }}</span>
+            <a href="{% url 'logout' %}" style="margin-left:15px;">Logout</a>
+        {% else %}
+            <a href="{% url 'login' %}">Login</a>
+            <a href="{% url 'register' %}" style="margin-left:15px;">Register</a>
+        {% endif %}
+    </div>
+</div>
+<hr>
+
+
+<div class="app-container">
+
+    <h1 class="app-title">Todo App</h1>
+
+    <!-- ADD TASK FORM -->
+    <form method="POST" class="task-form">
+        {% csrf_token %}
+
+        <input type="text" name="title" placeholder="Task title" required>
+        <textarea name="description" placeholder="Description (optional)"></textarea>
+
+        <div class="form-row">
+            <input type="date" name="due_date" required>
+            <select name="priority">
+                <option value="Low">Low</option>
+                <option value="Medium">Medium</option>
+                <option value="High">High</option>
+            </select>
+            <button type="submit">+ Add Task</button>
+        </div>
+    </form>
+
+    <!-- TABS -->
+    <div class="tabs">
+        <button class="tab active" onclick="showTab('today')">Today</button>
+        <button class="tab" onclick="showTab('pending')">Pending</button>
+        <button class="tab" onclick="showTab('overdue')">Overdue</button>
+    </div>
+
+    <!-- TASK LISTS -->
+    <div class="task-section" id="today">
+        {% if today_tasks %}
+            {% for task in today_tasks %}
+                <div class="task-card">
+                    <span>{{ task.title }}</span>
+                    <span class="date">{{ task.due_date }}</span>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p class="empty">No tasks for today</p>
+        {% endif %}
+    </div>
+
+    <div class="task-section hidden" id="pending">
+        {% if pending_tasks %}
+            {% for task in pending_tasks %}
+                <div class="task-card">
+                    <span>{{ task.title }}</span>
+                    <span class="date">{{ task.due_date }}</span>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p class="empty">No pending tasks</p>
+        {% endif %}
+    </div>
+
+    <div class="task-section hidden" id="overdue">
+        {% if overdue_tasks %}
+            {% for task in overdue_tasks %}
+                <div class="task-card overdue">
+                    <span>{{ task.title }}</span>
+                    <span class="date">{{ task.due_date }}</span>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p class="empty">No overdue tasks</p>
+        {% endif %}
+    </div>
+
+</div>
+
+<script src="{% static 'js/script.js' %}"></script>
+</body>
+</html>

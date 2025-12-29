@@ -1,0 +1,116 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Register | Todo App</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .register-card {
+            background: #ffffff;
+            padding: 30px 35px;
+            width: 370px;
+            border-radius: 8px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        .register-card h1 {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .register-card h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            font-weight: normal;
+            color: #555;
+        }
+
+        .register-card input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+        }
+
+        .register-card button {
+            width: 100%;
+            padding: 10px;
+            background: #2f7d32;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 15px;
+            cursor: pointer;
+        }
+
+        .register-card button:hover {
+            background: #256628;
+        }
+
+        .extra-links {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 14px;
+        }
+
+        .extra-links a {
+            color: #2f7d32;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .extra-links a:hover {
+            text-decoration: underline;
+        }
+
+        .error {
+            color: #d32f2f;
+            font-size: 13px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="register-card">
+        <h1>Todo App</h1>
+        <h2>Create Account</h2>
+
+        {% if form.errors %}
+            <div class="error">
+                Please fix the errors below.
+            </div>
+        {% endif %}
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <input type="text" name="username" placeholder="Username" required>
+            <input type="password" name="password1" placeholder="Password" required>
+            <input type="password" name="password2" placeholder="Confirm Password" required>
+
+            <button type="submit">Register</button>
+        </form>
+
+        <div class="extra-links">
+            Already have an account?
+            <a href="{% url 'login' %}">Login</a>
+        </div>
+    </div>
+
+</body>
+</html>
